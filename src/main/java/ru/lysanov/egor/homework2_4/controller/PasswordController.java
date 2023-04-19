@@ -1,0 +1,32 @@
+package ru.lysanov.egor.homework2_4.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import ru.lysanov.egor.homework2_4.exceptions.WrongLoginException;
+import ru.lysanov.egor.homework2_4.exceptions.WrongPasswordException;
+import ru.lysanov.egor.homework2_4.exceptions.WrongPasswordLenghtException;
+import ru.lysanov.egor.homework2_4.service.PasswordService;
+
+@RestController
+public class PasswordController {
+
+    private final PasswordService passwordService;
+
+    public PasswordController(PasswordService passwordService) {
+        this.passwordService = passwordService;
+    }
+
+    @GetMapping(path = "/checkPassword")
+    public String checkPassword(@RequestParam("login") String login, @RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword) {
+        try {
+            return passwordService.checkPassword(login, password, confirmPassword);
+        } catch (WrongLoginException exception) {
+            return "Неправильная длина логина";
+        } catch (WrongPasswordLenghtException exception) {
+            return "Неправильная длина пароля";
+        } catch (WrongPasswordException exception) {
+            return "Пароли не совпадают";
+        }
+    }
+}
