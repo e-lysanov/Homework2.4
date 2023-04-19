@@ -22,10 +22,13 @@ public class PasswordController {
         try {
             return passwordService.checkPassword(login, password, confirmPassword);
         } catch (WrongLoginException exception) {
+            exception.printStackTrace();
             return "Неправильная длина логина";
         } catch (WrongPasswordLenghtException exception) {
+            exception.printStackTrace();
             return "Неправильная длина пароля";
         } catch (WrongPasswordException exception) {
+            exception.printStackTrace();
             return "Пароли не совпадают";
         }
     }
