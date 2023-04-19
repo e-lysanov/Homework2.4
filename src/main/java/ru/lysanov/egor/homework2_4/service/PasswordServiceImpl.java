@@ -10,7 +10,7 @@ import ru.lysanov.egor.homework2_4.exceptions.WrongPasswordLenghtException;
 public class PasswordServiceImpl implements PasswordService {
     @Override
     public String checkPassword(String login, String password, String confirmPassword) {
-        if (login.length() > 20 || password.length() > 20) {
+        if (login.length() > 20) {
             throw new WrongLoginException();
         }
         if (password.length() > 20) {
