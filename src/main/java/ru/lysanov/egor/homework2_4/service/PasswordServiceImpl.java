@@ -1,23 +1,26 @@
 package ru.lysanov.egor.homework2_4.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import ru.lysanov.egor.homework2_4.exceptions.WrongLoginException;
+import ru.lysanov.egor.homework2_4.exceptions.WrongPasswordsException;
 import ru.lysanov.egor.homework2_4.exceptions.WrongPasswordException;
-import ru.lysanov.egor.homework2_4.exceptions.WrongPasswordLenghtException;
+
+import java.util.regex.Pattern;
+
 
 @Service
 public class PasswordServiceImpl implements PasswordService {
+
     @Override
     public String checkPassword(String login, String password, String confirmPassword) {
-        if (login.length() > 20) {
-            throw new WrongLoginException();
+        if (!Pattern.matches("^[a-zA-Z0-9_]{1,20}$", login)) {
+            throw new WrongLoginException("Неправильный формат логина");
         }
-        if (password.length() > 20) {
-            throw new WrongPasswordLenghtException();
+        if (!Pattern.matches("^[a-zA-Z0-9_]{1,19}$", password)) {
+            throw new WrongPasswordException("Неправильный формат пароля");
         }
-        if (password.equals(confirmPassword) == false) {
-            throw new WrongPasswordException();
+        if (!password.equals(confirmPassword)) {
+            throw new WrongPasswordsException("Пароли не совпадают");
         }
         return "true";
     }
